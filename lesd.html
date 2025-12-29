@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Рекламный Баннер</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+    /* Специфичные стили для баннера, чтобы он выглядел как картинка */
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #000; /* Фон вокруг баннера */
+    }
+
+    .ad-banner {
+        width: 1080px; /* Ширина для Instagram Stories / TikTok */
+        height: 1920px;
+        background-color: rgb(31, 31, 31);
+        border: 4px solid rgb(255, 243, 172);
+        box-shadow: 0 0 50px rgba(255, 243, 172, 0.2);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 80px 60px;
+        box-sizing: border-box;
+        font-family: 'Georgia', serif;
+        overflow: hidden;
+    }
+
+    /* Декоративный фон (свет сверху) */
+    .ad-banner::before {
+        content: '';
+        position: absolute;
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 800px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(255, 243, 172, 0.15) 0%, transparent 70%);
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .ad-content {
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ad-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .ad-title {
+        color: rgb(253, 239, 157);
+        font-size: 3.8rem;
+        font-family: 'Trajan Pro', 'Cinzel', Georgia, serif;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 20px;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .ad-subtitle {
+        color: rgb(255, 243, 172);
+        font-size: 1.8rem;
+        font-style: italic;
+        opacity: 0.9;
+    }
+
+    .section-box {
+        margin-bottom: 50px;
+    }
+
+    .section-title {
+        color: rgb(255, 243, 172);
+        font-size: 2rem;
+        text-transform: uppercase;
+        border-bottom: 2px solid rgba(255, 243, 172, 0.5);
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+        display: inline-block;
+    }
+
+    .list-item {
+        color: rgb(253, 239, 157);
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: flex-start;
+        line-height: 1.4;
+    }
+
+    .list-icon {
+        color: rgb(255, 243, 172);
+        margin-right: 20px;
+        font-size: 1.6rem;
+    }
+
+    .price-box {
+        background-color: rgba(255, 243, 172, 0.05);
+        border: 2px solid rgba(255, 243, 172, 0.3);
+        padding: 40px;
+        border-radius: 10px;
+        margin-top: auto; /* Прижимает к низу */
+    }
+
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 25px;
+        border-bottom: 1px dashed rgba(255, 243, 172, 0.2);
+        padding-bottom: 10px;
+    }
+
+    .price-name {
+        color: rgb(253, 239, 157);
+        font-size: 1.5rem;
+    }
+
+    .price-value {
+        color: rgb(255, 243, 172);
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+
+    .footer-note {
+        text-align: center;
+        color: rgba(253, 239, 157, 0.6);
+        margin-top: 40px;
+        font-size: 1.2rem;
+    }
+
+</style>
+</head>
+<body>
+
+    <div class="ad-banner">
+        <div class="ad-content">
+            
+            <div class="ad-header">
+                <h1 class="ad-title">Створення Сайтів</h1>
+                <div class="line"></div>
+                <p class="ad-subtitle" style="margin-top: 20px;">Швидкий запуск товарних лендингів</p>
+            </div>
+
+            <div class="section-box">
+                <div class="list-item">
+                    <span class="list-icon">✦</span>
+                    <span>Сайт під товар</span>
+                </div>
+                <div class="list-item">
+                    <span class="list-icon">✦</span>
+                    <span>Лендинг під рекламу</span>
+                </div>
+                <div class="list-item">
+                    <span class="list-icon">✦</span>
+                    <span>Швидкий запуск без складнощів</span>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <h3 class="section-title">Що входить:</h3>
+                <div class="list-item">
+                    <span class="list-icon">✔</span>
+                    <span>Копія лендингу (ваш шаблон)</span>
+                </div>
+                <div class="list-item">
+                    <span class="list-icon">✔</span>
+                    <span>Публікація на хостинг + Домен</span>
+                </div>
+                <div class="list-item">
+                    <span class="list-icon">✔</span>
+                    <span>Налаштування форми замовлення</span>
+                </div>
+                <div class="list-item">
+                    <span class="list-icon">✔</span>
+                    <span>Відправка заявок у Telegram / CRM</span>
+                </div>
+                 <div class="list-item">
+                    <span class="list-icon">✔</span>
+                    <span>Підключення Pixel</span>
+                </div>
+            </div>
+
+            <div class="price-box">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <span class="section-title" style="border-bottom: none; font-size: 2.5rem;">Прайс</span>
+                </div>
+
+                <div class="price-row">
+                    <span class="price-name">Копія + Хостинг</span>
+                    <span class="price-value">від 150 грн</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-name">Підключення CRM / TG</span>
+                    <span class="price-value">від 100 грн</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-name">Копія з правками</span>
+                    <span class="price-value">200–250 грн</span>
+                </div>
+                <div class="price-row" style="border-bottom: none;">
+                    <span class="price-name">Якщо шаблон мій</span>
+                    <span class="price-value" style="color: #fff;">+50 грн</span>
+                </div>
+            </div>
+
+            <div class="footer-note">
+                Пишіть для замовлення та консультації
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

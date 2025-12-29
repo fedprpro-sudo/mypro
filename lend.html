@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Приклади - Імперія</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: rgb(51, 48, 48);
+  font-family: 'Georgia', serif;
+  min-height: 100vh;
+}
+
+.line {
+  background: linear-gradient(90deg, transparent, rgb(255, 243, 172), transparent);
+  width: 100%;
+  height: 2px;
+  box-shadow: 0 0 10px rgba(255, 243, 172, 0.5);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(31, 31, 31);
+  padding: 20px 40px;
+  position: relative;
+}
+
+.menu-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background-color: rgb(31, 31, 31);
+  border: 2px solid rgb(255, 243, 172);
+  color: rgb(253, 239, 157);
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle:hover {
+  background-color: rgb(255, 243, 172);
+  box-shadow: 0 0 20px rgba(255, 243, 172, 0.4);
+}
+
+.menu-toggle span {
+  width: 30px;
+  height: 3px;
+  background-color: rgb(253, 239, 157);
+  transition: all 0.3s ease;
+}
+
+.menu-toggle:hover span {
+  background-color: rgb(31, 31, 31);
+}
+
+.navigation {
+  position: fixed;
+  left: -320px;
+  top: 0;
+  height: 100vh;
+  width: 300px;
+  background-color: rgb(31, 31, 31);
+  border-right: 2px solid rgb(255, 243, 172);
+  display: flex;
+  flex-direction: column;
+  padding-top: 100px;
+  transition: left 0.3s ease;
+  z-index: 999;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.navigation.open {
+  left: 0;
+}
+
+.nav-link {
+  color: rgb(253, 239, 157);
+  background-color: transparent;
+  border-bottom: 1px solid rgb(255, 243, 172);
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background-color: rgb(255, 243, 172);
+  transition: width 0.3s ease;
+  z-index: -1;
+}
+
+.nav-link:hover {
+  color: rgb(31, 31, 31);
+  padding-left: 50px;
+}
+
+.nav-link:hover::before {
+  width: 100%;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 998;
+}
+
+.overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.search-container {
+  flex: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 15px 50px 15px 20px;
+  background-color: rgb(51, 48, 48);
+  border: 2px solid rgb(255, 243, 172);
+  border-radius: 4px;
+  color: rgb(253, 239, 157);
+  font-family: 'Georgia', serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 20px rgba(255, 243, 172, 0.3);
+}
+
+.search-input::placeholder {
+  color: rgba(253, 239, 157, 0.5);
+}
+
+.search-button {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  color: rgb(253, 239, 157);
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.search-button::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgb(253, 239, 157);
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.search-button::after {
+  content: '';
+  display: inline-block;
+  width: 2.5px;
+  height: 8px;
+  background-color: rgb(253, 239, 157);
+  position: absolute;
+  right: 13px;
+  top: 60%;
+  transform: rotate(45deg);
+  transition: all 0.3s ease;
+}
+
+.search-button:hover::before {
+  border-color: rgb(255, 243, 172);
+}
+
+.search-button:hover::after {
+  background-color: rgb(255, 243, 172);
+}
+
+.settings-button {
+  background-color: transparent;
+  border: 2px solid rgb(255, 243, 172);
+  color: rgb(253, 239, 157);
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.settings-button:hover {
+  background-color: rgb(255, 243, 172);
+  color: rgb(31, 31, 31);
+  box-shadow: 0 0 20px rgba(255, 243, 172, 0.4);
+  transform: rotate(90deg);
+}
+
+/* Контент */
+.examples-container {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 0 40px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.page-title {
+  color: rgb(253, 239, 157);
+  font-size: 3rem;
+  font-family: 'Trajan Pro', 'Cinzel', Georgia, serif;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  margin-bottom: 20px;
+}
+
+.page-subtitle {
+  color: rgba(253, 239, 157, 0.8);
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+  font-style: italic;
+}
+
+.examples-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.example-card {
+  background-color: rgb(31, 31, 31);
+  border: 2px solid rgb(255, 243, 172);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.example-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(255, 243, 172, 0.4);
+}
+
+.example-card:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.example-content {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.example-image {
+  flex: 1;
+  min-width: 400px;
+  height: 350px;
+  overflow: hidden;
+  position: relative;
+  background-color: rgb(51, 48, 48);
+}
+
+.example-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.example-card:hover .example-image img {
+  transform: scale(1.1);
+}
+
+.example-title {
+  color: rgb(253, 239, 157);
+  font-size: 2rem;
+  font-family: 'Georgia', serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.example-description {
+  color: rgba(253, 239, 157, 0.85);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 25px;
+  text-align: justify;
+}
+
+.example-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.tag {
+  background-color: rgba(255, 243, 172, 0.2);
+  color: rgb(253, 239, 157);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 243, 172, 0.3);
+}
+
+.example-link {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 15px 40px;
+  background-color: transparent;
+  border: 2px solid rgb(255, 243, 172);
+  color: rgb(253, 239, 157);
+  text-decoration: none;
+  font-family: 'Georgia', serif;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.example-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(255, 243, 172);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.example-link:hover {
+  color: rgb(31, 31, 31);
+}
+
+.example-link:hover::before {
+  left: 0;
+}
+
+@media (max-width: 968px) {
+  .example-card,
+  .example-card:nth-child(even) {
+    flex-direction: column;
+  }
+
+  .example-image {
+    min-width: 100%;
+    height: 300px;
+  }
+
+  .example-content {
+    padding: 30px;
+  }
+
+  .header {
+    padding: 15px 20px;
+  }
+
+  .search-container {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .examples-container {
+    padding: 0 20px;
+    margin: 40px auto;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+  }
+
+  .example-title {
+    font-size: 1.5rem;
+  }
+
+  .example-description {
+    font-size: 1rem;
+  }
+
+  .search-container {
+    margin: 0 10px;
+  }
+
+  .settings-button {
+    width: 45px;
+    height: 45px;
+  }
+}
+</style>
+</head>
+<body>
+  <button class="menu-toggle" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="overlay" onclick="toggleMenu()"></div>
+
+  <nav class="navigation">
+    <a class="nav-link" href="#osnova">Основа</a>
+    <a class="nav-link" href="#glavnaya">Головна</a>
+    <a class="nav-link" href="#examples">Приклади</a>
+    <a class="nav-link" href="#sait">Сайт</a>
+    <a class="nav-link" href="#saity">Сайти</a>
+  </nav>
+
+  <div class="line"></div>
+
+  <div class="header">
+    <div style="width: 50px;"></div>
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Пошук...">
+      <button class="search-button"></button>
+    </div>
+    <button class="settings-button">⚙</button>
+  </div>
+  
+  <div class="line"></div>
+
+  <main class="examples-container">
+    <div class="page-header">
+      <h1 class="page-title">Приклади Лендингів</h1>
+      <p class="page-subtitle">Натхніться готовими рішеннями для вашого проекту</p>
+    </div>
+
+    <div class="examples-grid">
+      <!-- Example 1 -->
+      <div class="example-card">
+        <div class="example-content">
+          <h3 class="example-title">Tech Startup</h3>
+          <p class="example-description">
+            Мінімалістичний лендинг для технологічного стартапу з акцентом на інновації та сучасний дизайн. Чітка структура та яскраві CTA кнопки забезпечують високу конверсію. Ідеально підходить для SaaS-продуктів та B2B-рішень.
+          </p>
+          <div class="example-tags">
+            <span class="tag">SaaS</span>
+            <span class="tag">Мінімалізм</span>
+            <span class="tag">B2B</span>
+          </div>
+          <a href="#" class="example-link">Детальніше</a>
+        </div>
+        <div class="example-image">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="Технологічний лендинг">
+        </div>
+      </div>
+
+      <!-- Example 2 -->
+      <div class="example-card">
+        <div class="example-content">
+          <h3 class="example-title">Fashion Brand</h3>
+          <p class="example-description">
+            Елегантний лендинг для модного бренду з великими зображеннями та витонченою типографікою. Ідеально підходить для преміум-сегменту. Створює емоційний зв'язок з аудиторією через візуальну естетику.
+          </p>
+          <div class="example-tags">
+            <span class="tag">E-commerce</span>
+            <span class="tag">Luxury</span>
+            <span class="tag">B2C</span>
+          </div>
+          <a href="#" class="example-link">Детальніше</a>
+        </div>
+        <div class="example-image">
+          <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=600&h=400&fit=crop" alt="Fashion лендинг">
+        </div>
+      </div>
+
+      <!-- Example 3 -->
+      <div class="example-card">
+        <div class="example-content">
+          <h3 class="example-title">Fitness Studio</h3>
+          <p class="example-description">
+            Енергійний лендинг для фітнес-студії з яскравими кольорами та динамічними елементами. Мотивує до дії та підкреслює активний спосіб життя. Включає розклад занять та форму реєстрації.
+          </p>
+          <div class="example-tags">
+            <span class="tag">Послуги</span>
+            <span class="tag">Спорт</span>
+            <span class="tag">Local</span>
+          </div>
+          <a href="#" class="example-link">Детальніше</a>
+        </div>
+        <div class="example-image">
+          <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&h=400&fit=crop" alt="Фітнес лендинг">
+        </div>
+      </div>
+
+      <!-- Example 4 -->
+      <div class="example-card">
+        <div class="example-content">
+          <h3 class="example-title">Restaurant Menu</h3>
+          <p class="example-description">
+            Апетитний лендинг для ресторану з професійною фотографією страв та зручним меню. Створює бажання відвідати заклад. Інтегрована система онлайн-бронювання столиків.
+          </p>
+          <div class="example-tags">
+            <span class="tag">HoReCa</span>
+            <span class="tag">Food</span>
+            <span class="tag">B2C</span>
+          </div>
+          <a href="#" class="example-link">Детальніше</a>
+        </div>
+        <div class="example-image">
+          <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=600&h=400&fit=crop" alt="Ресторан лендинг">
+        </div>
+      </div>
+
+      <!-- Example 5 -->
+      <div class="example-card">
+        <div class="example-content">
+          <h3 class="example-title">Business Consulting</h3>
+          <p class="example-description">
+            Професійний лендинг для консалтингової компанії з акцентом на довіру та експертність. Строгий дизайн та чіткі переваги послуг. Демонструє кейси та результати роботи.
+          </p>
+          <div class="example-tags">
+            <span class="tag">B2B</span>
+            <span class="tag">Консалтинг</span>
+            <span class="tag">Корпоративний</span>
+          </div>
+          <a href="#" class="example-link">Детальніше</a>
+        </div>
+        <div class="example-image">
+          <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop" alt="Бізнес консалтинг">
+        </div>
+      </div>
+
+      <!-- Example 6 -->
+      <div class="example-card">
+        <div class="example-content">
+          <h3 class="example-title">Online Courses</h3>
+          <p class="example-description">
+            Освітній лендинг для онлайн-курсів з інтерактивними елементами та чіткою структурою програми навчання. Зручна реєстрація та оплата. Показує програму, викладачів та відгуки студентів.
+          </p>
+          <div class="example-tags">
+            <span class="tag">EdTech</span>
+            <span class="tag">Освіта</span>
+            <span class="tag">B2C</span>
+          </div>
+          <a href="#" class="example-link">Детальніше</a>
+        </div>
+        <div class="example-image">
+          <img src="https://images.unsplash.com/photo-1484417894907-623942c8ee29?w=600&h=400&fit=crop" alt="Онлайн курси">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.querySelector('.navigation');
+      const overlay = document.querySelector('.overlay');
+      nav.classList.toggle('open');
+      overlay.classList.toggle('open');
+    }
+
+    // Анімація появи карточок
+    window.addEventListener('load', function() {
+      const cards = document.querySelectorAll('.example-card');
+      
+      cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      });
+      
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 150);
+      });
+    });
+
+    // Функціонал пошуку
+    const searchInput = document.querySelector('.search-input');
+    const searchButton = document.querySelector('.search-button');
+
+    searchButton.addEventListener('click', function() {
+      const searchValue = searchInput.value.trim().toLowerCase();
+      if (searchValue) {
+        const cards = document.querySelectorAll('.example-card');
+        cards.forEach(card => {
+          const title = card.querySelector('.example-title').textContent.toLowerCase();
+          const description = card.querySelector('.example-description').textContent.toLowerCase();
+          const tags = Array.from(card.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase()).join(' ');
+          
+          if (title.includes(searchValue) || description.includes(searchValue) || tags.includes(searchValue)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      } else {
+        document.querySelectorAll('.example-card').forEach(card => {
+          card.style.display = 'flex';
+        });
+      }
+    });
+
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        searchButton.click();
+      }
+    });
+
+    searchInput.addEventListener('input', function() {
+      if (this.value.trim() === '') {
+        document.querySelectorAll('.example-card').forEach(card => {
+          card.style.display = 'flex';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
